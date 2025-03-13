@@ -10,6 +10,7 @@ import learning.example.learn.Repository.UserRepository;
 @Service
 public class UserService {
     
+
     @Autowired
     private UserRepository userRepository;
 
@@ -21,5 +22,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public String deleteUser(String id){
+        userRepository.deleteById(id);
+        return "User deleted Successfully";
 
+    }
+    
 }
