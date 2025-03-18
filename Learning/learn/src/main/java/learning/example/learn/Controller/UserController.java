@@ -5,15 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import learning.example.learn.Service.UserService;
+import learning.example.learn.LearnApplication;
 import learning.example.learn.Model.User;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
+
     @Autowired
     private UserService userService;
-
  
     @GetMapping
     public List<User> getAllUsers(){
@@ -37,6 +38,10 @@ public class UserController {
         return userService.updateUser(id, user);
     }
 
+    @PatchMapping("/{id}")
+    public User patchUserUpdate(@RequestBody User user, @PathVariable String id){
+        return userService.patchUserUpdate(id, user);
+    }
 
 
 }

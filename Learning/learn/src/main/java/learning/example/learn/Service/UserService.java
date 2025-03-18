@@ -13,11 +13,8 @@ import learning.example.learn.Repository.UserRepository;
 @Service
 public class UserService {
 
-    
     @Autowired
     private UserRepository userRepository;
-
-
 
 
     public List<User> getAllUser(){
@@ -41,6 +38,19 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User data = optionalUser.get();
+            data.setName(newUser.getName() != null ? newUser.getName():data.getName() );    
+            data.setEmail(newUser.getEmail() != null ? newUser.getEmail() : data.getEmail());
+            return userRepository.save(data);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
+
+    // PATCH request Handler
+    public User patchUserUpdate(String id, User newUser){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User data = optionalUser.get();
 
             if (newUser.getName() != null) {
                 data.setName(newUser.getName());
@@ -55,6 +65,5 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
-
 
 }
