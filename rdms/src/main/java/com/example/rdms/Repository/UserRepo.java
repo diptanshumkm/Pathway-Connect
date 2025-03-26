@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.rdms.Model.UserModel;
 
-@Repository
+// @Repository
 public interface UserRepo extends JpaRepository<UserModel, Long>{
     
 }
