@@ -13,7 +13,7 @@ This starter pack includes a basic setup for using **Tailwind CSS with React**. 
 
 1. Install the required packages.
     ```sh
-    cd react-tailwind-css-starter-pack
+    cd PathwayConnect-Frontend
     npm install
     ```
 
