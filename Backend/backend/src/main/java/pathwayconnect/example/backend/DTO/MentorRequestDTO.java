@@ -7,16 +7,13 @@ public class MentorRequestDTO {
     private String email;
     private String phone;
     private String profilePicture;
+    private String role;
     
     private String education;
     private int yearOfExperience;
     private String currentCompany;
     private List<String> pastCompanies;
 
-    private String day;
-    private String date;
-    private String startTime;
-    private String endTime;
 
     // Getters and Setters
     public String getName() {
@@ -51,6 +48,14 @@ public class MentorRequestDTO {
         this.profilePicture = profilePicture;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getEducation() {
         return education;
     }
@@ -83,37 +88,7 @@ public class MentorRequestDTO {
         this.pastCompanies = pastCompanies;
     }
 
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+    
 }
     
 
