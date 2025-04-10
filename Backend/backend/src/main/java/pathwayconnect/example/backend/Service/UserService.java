@@ -1,10 +1,14 @@
 package pathwayconnect.example.backend.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import pathwayconnect.example.backend.DTO.MentorRequestDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
@@ -24,6 +28,11 @@ public class UserService {
 
     @Autowired
     private MentorRepo mentorRepo;
+
+    @Value("${mentor.upload.dir}")
+    private String uploadDir;
+
+
 
     public ResponseEntity<UserTable> addUser(UserTable user) {
         if (user.getEmail() != null && user.getPhone() != null && userRepo.existsByEmailAndPhone(user.getEmail(), user.getPhone())) {
@@ -185,4 +194,51 @@ public class UserService {
         }
     }
     
+    public ResponseEntity<String> uploadMentorPhoto(Long id ,MultipartFile file){
+        if (file.isEmpty() == true) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File is empty");
+        }
+        String contentType = file.getContentType();
+
+        if (!"image/jpeg".equals(contentType) && !"image/png".equals(contentType)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File format not supported!");
+        }
+
+        Optional<MentorTable> optionalData = mentorRepo.findById(id);
+        if (optionalData.isPresent() == false) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mentor not found");
+        }
+
+        MentorTable mentorData = optionalData.get();
+        UserTable userData = mentorData.getUser();
+
+        // Create the folder if it does not exist
+        File uploadFolder = new File(uploadDir);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdirs();
+        }
+
+         // Generate a unique file name using the mentor id and current timestamp
+        String originalFilename = file.getOriginalFilename();
+        String fileExtension = "";
+        if (originalFilename != null && originalFilename.lastIndexOf(".") != -1) {
+            fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+        String uniqueFileName = "mentor_" + id + "_" + System.currentTimeMillis() + fileExtension;
+        File destinationFile = new File(uploadDir + "\\" + uniqueFileName);
+
+        try {
+            // Save the file locally
+            file.transferTo(destinationFile);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving file: " + e.getMessage());
+        }
+
+        // Update the user's profile picture field with the file path
+        userData.setProfilePicture(uploadDir + uniqueFileName);
+        userRepo.save(userData);
+
+        return ResponseEntity.ok("File uploaded successfully. File path: " + uploadDir + uniqueFileName);
+    }
+
 }

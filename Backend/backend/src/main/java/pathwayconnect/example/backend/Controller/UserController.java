@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
 import pathwayconnect.example.backend.DTO.MentorRequestDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
 import pathwayconnect.example.backend.Models.MentorTable;
@@ -69,6 +70,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("Mentor deleted successfully!");
     }
 
-
+    @PostMapping("/mentor/{id}/upload-image")
+    public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam ("file") MultipartFile file){
+        service.uploadMentorPhoto(id, file);
+        return ResponseEntity.ok("Mentor Image uploaded successfully!");
+    }  
 
 }
