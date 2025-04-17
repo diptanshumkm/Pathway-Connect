@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pathwayconnect.example.backend.DTO.MentorRequestDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
-import pathwayconnect.example.backend.Models.MentorTable;
 import pathwayconnect.example.backend.Models.UserTable;
 import pathwayconnect.example.backend.Service.UserService;
-
 
 
 @RestController
@@ -38,7 +36,7 @@ public class UserController {
    }
 
     @PostMapping("/mentor")
-    public MentorTable addMentor(@RequestBody MentorRequestDTO mentorData){
+    public MentorResponseDTO addMentor(@RequestBody MentorRequestDTO mentorData){
         return service.addMentor(mentorData);
     }
 

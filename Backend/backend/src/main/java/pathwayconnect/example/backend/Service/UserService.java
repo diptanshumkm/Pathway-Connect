@@ -33,7 +33,6 @@ public class UserService {
     private String uploadDir;
 
 
-
     public ResponseEntity<UserTable> addUser(UserTable user) {
         if (user.getEmail() != null && user.getPhone() != null && userRepo.existsByEmailAndPhone(user.getEmail(), user.getPhone())) {
             throw new ResponseStatusException(HttpStatus.FOUND, "User Already Exists!");
@@ -42,19 +41,20 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepo.save(user));
     }
 
-    public MentorTable addMentor(MentorRequestDTO mentorData) {
+    
+    public MentorResponseDTO addMentor(MentorRequestDTO mentorData) {
         if (mentorData.getEmail() == null || mentorData.getEmail().isEmpty() ||
             mentorData.getEducation() == null || mentorData.getEducation().isEmpty() ||
             mentorData.getPastCompanies() == null || mentorData.getPastCompanies().isEmpty() ||
             !"MENTOR".equals(mentorData.getRole())) {
-
+    
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enter all fields correctly!");
         }
-
+    
         if (userRepo.existsByEmailAndPhone(mentorData.getEmail(), mentorData.getPhone())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Mentor Already Exists!");
         }
-
+    
         UserTable user = new UserTable();
         user.setName(mentorData.getName());
         user.setEmail(mentorData.getEmail());
@@ -62,20 +62,36 @@ public class UserService {
         user.setProfilePicture(mentorData.getProfilePicture());
         user.setRole(UserRole.MENTOR);
         userRepo.save(user);
-
+    
         ProfessionalDetail professionalData = new ProfessionalDetail();
         professionalData.setYearOfExperience(mentorData.getYearOfExperience());
         professionalData.setCurrentCompany(mentorData.getCurrentCompany());
         professionalData.setPastCompanies(mentorData.getPastCompanies());
         professionalData.setEducation(mentorData.getEducation());
         professionalRepo.save(professionalData);
-
+    
         MentorTable mentorTableData = new MentorTable();
         mentorTableData.setUser(user);
         mentorTableData.setProfessionalDetail(professionalData);
-
-        return mentorRepo.save(mentorTableData);
+    
+        MentorTable savedMentor = mentorRepo.save(mentorTableData);
+    
+        // ✅ Prepare response DTO
+        MentorResponseDTO responseDTO = new MentorResponseDTO();
+        responseDTO.setId(savedMentor.getId());
+        responseDTO.setName(user.getName());
+        responseDTO.setEmail(user.getEmail());
+        responseDTO.setPhone(user.getPhone());
+        responseDTO.setProfilePicture(user.getProfilePicture());
+        responseDTO.setRole(user.getRole().name());
+        responseDTO.setEducation(professionalData.getEducation());
+        responseDTO.setYearOfExperience(professionalData.getYearOfExperience());
+        responseDTO.setCurrentCompany(professionalData.getCurrentCompany());
+        responseDTO.setPastCompanies(professionalData.getPastCompanies());
+    
+        return responseDTO;
     }
+    
 
     public List<MentorResponseDTO> getAllMentors(){
 
@@ -100,6 +116,7 @@ public class UserService {
 
     }
 
+
     public MentorResponseDTO getMentorById(Long id){
         Optional<MentorTable> optionalMentorData =  mentorRepo.findById(id);
         if (optionalMentorData.isPresent()) {
@@ -121,6 +138,7 @@ public class UserService {
         }
 
     }
+
 
     public void updateMentor(MentorRequestDTO mentorData, Long id){
         Optional<MentorTable> optionalMentor = mentorRepo.findById(id);
@@ -151,6 +169,7 @@ public class UserService {
         professionalRepo.save(professionalDetail);
     }
 
+
     public void patchUpdateMentor(MentorRequestDTO mentorData, Long id) {
         Optional<MentorTable> optionalMentor = mentorRepo.findById(id);
     
@@ -179,6 +198,7 @@ public class UserService {
         professionalRepo.save(professional);
     }
     
+
     public void deleteMentorById(Long id) {
         Optional<MentorTable> optionalData = mentorRepo.findById(id);
         if (optionalData.isPresent()) {
@@ -194,6 +214,7 @@ public class UserService {
         }
     }
     
+
     public ResponseEntity<String> uploadMentorPhoto(Long id ,MultipartFile file){
         if (file.isEmpty() == true) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("File is empty");

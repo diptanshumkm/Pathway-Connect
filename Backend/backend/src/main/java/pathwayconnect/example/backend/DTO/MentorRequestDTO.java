@@ -10,7 +10,7 @@ public class MentorRequestDTO {
     private String role;
     
     private String education;
-    private int yearOfExperience;
+    private int yearsOfExperience;
     private String currentCompany;
     private List<String> pastCompanies;
 
@@ -65,11 +65,11 @@ public class MentorRequestDTO {
     }
 
     public int getYearOfExperience() {
-        return yearOfExperience;
+        return yearsOfExperience;
     }
 
     public void setYearOfExperience(int yearOfExperience) {
-        this.yearOfExperience = yearOfExperience;
+        this.yearsOfExperience = yearOfExperience;
     }
 
     public String getCurrentCompany() {
