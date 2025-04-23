@@ -10,10 +10,9 @@ public class MentorRequestDTO {
     private String role;
     
     private String education;
-    private int yearsOfExperience;
+    private Integer yearsOfExperience;
     private String currentCompany;
     private List<String> pastCompanies;
-
 
     // Getters and Setters
     public String getName() {
@@ -64,11 +63,11 @@ public class MentorRequestDTO {
         this.education = education;
     }
 
-    public int getYearOfExperience() {
+    public Integer getYearsOfExperience() {
         return yearsOfExperience;
     }
 
-    public void setYearOfExperience(int yearOfExperience) {
+    public void setYearsOfExperience(Integer yearOfExperience) {
         this.yearsOfExperience = yearOfExperience;
     }
 
@@ -91,4 +90,3 @@ public class MentorRequestDTO {
     
 }
     
-

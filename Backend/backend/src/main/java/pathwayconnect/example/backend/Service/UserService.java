@@ -15,7 +15,8 @@ import pathwayconnect.example.backend.DTO.MentorResponseDTO;
 import pathwayconnect.example.backend.Models.*;
 import pathwayconnect.example.backend.Models.UserTable.UserRole;
 import pathwayconnect.example.backend.Repository.*;
-
+import pathwayconnect.example.backend.utils.PasswordGenerator;
+import pathwayconnect.example.backend.utils.RandomIdGenerator;
 
 @Service
 public class UserService {
@@ -29,8 +30,25 @@ public class UserService {
     @Autowired
     private MentorRepo mentorRepo;
 
+    @Autowired
+    private LoginRepo loginRepo;
+
     @Value("${mentor.upload.dir}")
     private String uploadDir;
+
+        
+    private String generateUniqueUserId() {
+        String loginId;
+        do{
+            loginId =RandomIdGenerator.generateRandomId();
+        }while(loginRepo.existsByLoginId(loginId));
+        return loginId;
+    }
+
+    private String generatePassword(){
+        String password = PasswordGenerator.generateSecurePassword();
+        return password;
+    }
 
 
     public ResponseEntity<UserTable> addUser(UserTable user) {
@@ -41,7 +59,7 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepo.save(user));
     }
 
-    
+
     public MentorResponseDTO addMentor(MentorRequestDTO mentorData) {
         if (mentorData.getEmail() == null || mentorData.getEmail().isEmpty() ||
             mentorData.getEducation() == null || mentorData.getEducation().isEmpty() ||
@@ -54,7 +72,8 @@ public class UserService {
         if (userRepo.existsByEmailAndPhone(mentorData.getEmail(), mentorData.getPhone())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Mentor Already Exists!");
         }
-    
+
+        //User Table Details
         UserTable user = new UserTable();
         user.setName(mentorData.getName());
         user.setEmail(mentorData.getEmail());
@@ -63,19 +82,30 @@ public class UserService {
         user.setRole(UserRole.MENTOR);
         userRepo.save(user);
     
+        // Professional Detail 
         ProfessionalDetail professionalData = new ProfessionalDetail();
-        professionalData.setYearOfExperience(mentorData.getYearOfExperience());
+        professionalData.setYearOfExperience(
+            mentorData.getYearsOfExperience() != null ? mentorData.getYearsOfExperience() : 0
+        );
+
         professionalData.setCurrentCompany(mentorData.getCurrentCompany());
         professionalData.setPastCompanies(mentorData.getPastCompanies());
         professionalData.setEducation(mentorData.getEducation());
         professionalRepo.save(professionalData);
     
+        // Mentor Table Details
         MentorTable mentorTableData = new MentorTable();
         mentorTableData.setUser(user);
-        mentorTableData.setProfessionalDetail(professionalData);
-    
+        mentorTableData.setProfessionalDetail(professionalData);    
         MentorTable savedMentor = mentorRepo.save(mentorTableData);
-    
+
+        // Create Login Credential
+        LoginCredentials login = new LoginCredentials();
+        login.setUser(user);
+        login.setLoginId(generateUniqueUserId());
+        login.setLoginPassword(generatePassword());
+        loginRepo.save(login);
+
         // ✅ Prepare response DTO
         MentorResponseDTO responseDTO = new MentorResponseDTO();
         responseDTO.setId(savedMentor.getId());
@@ -88,10 +118,12 @@ public class UserService {
         responseDTO.setYearOfExperience(professionalData.getYearOfExperience());
         responseDTO.setCurrentCompany(professionalData.getCurrentCompany());
         responseDTO.setPastCompanies(professionalData.getPastCompanies());
+        responseDTO.setLogInId(login.getLoginId());
+        responseDTO.setLogInPassword(login.getLoginPassword());
     
         return responseDTO;
     }
-    
+
 
     public List<MentorResponseDTO> getAllMentors(){
 
@@ -162,7 +194,7 @@ public class UserService {
         // Update Professional Details
         ProfessionalDetail professionalDetail = mentor.getProfessionalDetail();
         professionalDetail.setEducation(mentorData.getEducation());
-        professionalDetail.setYearOfExperience(mentorData.getYearOfExperience());
+        professionalDetail.setYearOfExperience(mentorData.getYearsOfExperience());
         professionalDetail.setCurrentCompany(mentorData.getCurrentCompany());
         professionalDetail.setPastCompanies(mentorData.getPastCompanies());
 
@@ -191,7 +223,7 @@ public class UserService {
     
         // Update professional details if present
         if (mentorData.getEducation() != null) professional.setEducation(mentorData.getEducation());
-        if (mentorData.getYearOfExperience() != 0) professional.setYearOfExperience(mentorData.getYearOfExperience());
+        if (mentorData.getYearsOfExperience() != 0) professional.setYearOfExperience(mentorData.getYearsOfExperience());
         if (mentorData.getCurrentCompany() != null) professional.setCurrentCompany(mentorData.getCurrentCompany());
         if (mentorData.getPastCompanies() != null) professional.setPastCompanies(mentorData.getPastCompanies());
     

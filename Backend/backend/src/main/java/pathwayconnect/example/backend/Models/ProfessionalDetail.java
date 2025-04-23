@@ -3,6 +3,7 @@ package pathwayconnect.example.backend.Models;
 import java.util.List;
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "professional_table")
 public class ProfessionalDetail {
@@ -12,7 +13,10 @@ public class ProfessionalDetail {
     private Long id;
 
     private String education;
-    private int yearOfExperience;
+
+    @Column(name = "years_of_experience", nullable = false)
+    private Integer yearsOfExperience = 0;    
+
     private String currentCompany;
 
     @ElementCollection
@@ -41,12 +45,12 @@ public class ProfessionalDetail {
         this.education = education;
     }
 
-    public int getYearOfExperience() {
-        return yearOfExperience;
+    public Integer getYearOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setYearOfExperience(int yearOfExperience) {
-        this.yearOfExperience = yearOfExperience;
+    public void setYearOfExperience(Integer yearOfExperience) {
+        this.yearsOfExperience = yearOfExperience;
     }
 
     public String getCurrentCompany() {

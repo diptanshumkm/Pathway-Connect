@@ -61,17 +61,25 @@ export default function RegisterMentor() {
     const mentorData = {
       ...rest,
       role: "MENTOR", // hardcoded role
-      yearsOfExperience: parseInt(yearsOfExperience, 10),
+      yearsOfExperience: yearsOfExperience ? parseInt(yearsOfExperience, 10) : 0,
       pastCompanies: pastCompanies
         ? pastCompanies.split(",").map((company) => company.trim())
         : [],
     };
+    console.log("Submitting mentor data:", mentorData);
 
+    // -------------------------------------------------------------------------------------------------
+    let loginId;
+    let loginPassword;
     // Step 1: Submit mentor data
     axios
       .post("http://localhost:8080/users/mentor", mentorData)
       .then((response) => {
+        console.log("Backend response:", response.data);
         const mentorId = response.data.id;
+        loginId = response.data.logInId;
+        loginPassword = response.data.logInPassword;
+
 
         if (!mentorId) {
           throw new Error("Mentor ID not returned from backend.");
@@ -90,13 +98,18 @@ export default function RegisterMentor() {
                 "Content-Type": "multipart/form-data",
               },
             }
-          );
+          )
+
         }
 
         return Promise.resolve();
       })
       .then(() => {
-        navigate("/mentor/success");
+        navigate("/mentor/success", {
+          state: {
+            loginId,
+            loginPassword
+          }});
         // alert("Mentor registered successfully!");
       })
       .catch((error) => {

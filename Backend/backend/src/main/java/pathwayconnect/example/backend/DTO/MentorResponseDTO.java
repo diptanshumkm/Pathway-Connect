@@ -17,6 +17,10 @@ public class MentorResponseDTO {
     private String currentCompany;
     private List<String> pastCompanies;
 
+    // Login details
+    private String loginId;
+    private String loginPassword;
+
 
     // Getters and Setters
     public Long getId() {
@@ -26,7 +30,6 @@ public class MentorResponseDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
     
     public String getName() {
         return name;
@@ -100,6 +103,20 @@ public class MentorResponseDTO {
         this.pastCompanies = pastCompanies;
     }
 
+    public String getLogInId() {
+        return loginId;
+    }
 
+    public void setLogInId(String logInId) {
+        this.loginId = logInId;
+    }
+
+    public String getLogInPassword() {
+        return loginPassword;
+    }
+
+    public void setLogInPassword(String logInPassword) {
+        this.loginPassword = logInPassword;
+    }
 
 }
