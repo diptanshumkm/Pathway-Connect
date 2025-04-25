@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 export const MenuDropDown = ({ onClose }) => {
   const options = [
+    { label: "Login as Mentor", path: "/mentor/login" },
+    { label: "Login as Mentee", path: "/mentee/login" },
     { label: "Register as Mentor", path: "/register-mentor" },
     { label: "Register as Mentee", path: "/register-mentee" }
   ];

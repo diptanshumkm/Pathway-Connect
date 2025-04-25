@@ -5,6 +5,8 @@ import Navbar from "./Components/Navbar";
 import RegisterMentor from "./Pages/RegisterMentor";
 import RegisterMentee from "./Pages/RegisterMentee";
 import MentorSuccess from "./Pages/MentorSeccess";
+import { LoginMentor } from "./Pages/LoginMentor";
+import { LoginMentee } from "./Pages/LoginMentee";
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
             <Route path="/register-mentor" element={<RegisterMentor />} ></Route>
             <Route path="/register-mentee" element={<RegisterMentee />} ></Route>
             <Route path="/mentor/success" element={<MentorSuccess />} />
+            <Route path="/mentor/login" element={<LoginMentor />} />
+            <Route path="/mentee/login" element={<LoginMentee />} />
           </Routes>
         </div>
       </div>
