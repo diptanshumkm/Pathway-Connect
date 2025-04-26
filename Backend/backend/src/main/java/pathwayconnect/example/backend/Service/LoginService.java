@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import io.micrometer.common.util.StringUtils;
 import pathwayconnect.example.backend.DTO.LoginRequestDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
 import pathwayconnect.example.backend.Models.LoginCredentials;
@@ -32,10 +31,19 @@ public class LoginService {
         }
 
         LoginCredentials credential = loginRepo.findByLoginIdAndLoginPassword(loginCredentials.getUserId(), loginCredentials.getPassword());
+        if (credential == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user present.");
+        }
 
-        UserTable user = loginRepo.findUserByLoginId(loginCredentials.getUserId());
+
+        UserTable user = credential.getUser();
         MentorTable mentor =  mentorRepo.findMentorTableByUser(user);
 
+        if (mentor == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Mentor details not found for the user.");
+        }
+
+        // Prepare response 
         MentorResponseDTO response = new MentorResponseDTO();
         response.setName(user.getName());
         response.setEmail(user.getEmail());

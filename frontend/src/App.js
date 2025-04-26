@@ -4,9 +4,10 @@ import Home from "./Pages/Home";
 import Navbar from "./Components/Navbar";
 import RegisterMentor from "./Pages/RegisterMentor";
 import RegisterMentee from "./Pages/RegisterMentee";
-import MentorSuccess from "./Pages/MentorSeccess";
+import MentorSuccess from "./Pages/MentorSuccess";
 import { LoginMentor } from "./Pages/LoginMentor";
 import { LoginMentee } from "./Pages/LoginMentee";
+import { MentorDashboard } from "./Pages/MentorDashboard";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/mentor/success" element={<MentorSuccess />} />
             <Route path="/mentor/login" element={<LoginMentor />} />
             <Route path="/mentee/login" element={<LoginMentee />} />
+            <Route path="/mentor/dashboard" element={<MentorDashboard />} />
           </Routes>
         </div>
       </div>

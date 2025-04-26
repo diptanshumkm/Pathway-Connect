@@ -20,8 +20,8 @@ public class LoginCredentials {
     @Column(nullable = false)
     private String loginPassword;
 
+    
     // Getters and Setters
-
     public Long getId() {
         return id;
     }

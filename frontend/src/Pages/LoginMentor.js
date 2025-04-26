@@ -1,6 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginMentor = () => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     userId: '',
     password: ''
@@ -18,6 +23,24 @@ export const LoginMentor = () => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Add your login logic here
+
+    axios
+      .post("http://localhost:8080/users/login/mentor", formData)
+      .then( (response) => {
+        console.log(response.data);
+        navigate( "/mentor/dashboard", 
+          {
+            state: response.data
+          }
+         )
+
+      } )
+      .catch( (error) => {
+        console.error("Login error:", error);
+        alert("Login failed. Please check your credentials.");  
+      } )
+
+
   };
 
 
