@@ -22,6 +22,9 @@ public class MentorTable {
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
     private List<AvailabilitySlot> availabilitySlots;
 
+    @OneToMany(mappedBy = "mentor")
+    private List<Mentee> mentee;
+
     public Long getId() {
         return id;
     }
@@ -53,4 +56,7 @@ public class MentorTable {
     public void setAvailabilitySlots(List<AvailabilitySlot> availabilitySlots) {
         this.availabilitySlots = availabilitySlots;
     }
+
+
+
 }
