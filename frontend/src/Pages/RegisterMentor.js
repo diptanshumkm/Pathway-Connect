@@ -91,7 +91,7 @@ export default function RegisterMentor() {
           imageData.append("file", profilePicture);
 
           return axios.post(
-            `http://localhost:8080/users/mentor/${mentorId}/upload-image`,
+            `http://localhost:8080/users/${mentorId}/upload-image`,
             imageData,
             {
               headers: {
@@ -105,7 +105,7 @@ export default function RegisterMentor() {
         return Promise.resolve();
       })
       .then(() => {
-        navigate("/mentor/success", {
+        navigate("/success", {
           state: {
             loginId,
             loginPassword

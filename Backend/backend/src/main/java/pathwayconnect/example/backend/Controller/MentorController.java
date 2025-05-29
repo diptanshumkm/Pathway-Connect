@@ -18,16 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 import pathwayconnect.example.backend.DTO.MentorRequestDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
 import pathwayconnect.example.backend.Models.UserTable;
-import pathwayconnect.example.backend.Service.UserService;
+import pathwayconnect.example.backend.Service.MentorService;
 
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class MentorController {
 
     @Autowired
-    private UserService service;
-
+    private MentorService service;
 
    @PostMapping("/add-user")
    public ResponseEntity<UserTable> addUser(@RequestBody UserTable user) {
@@ -68,7 +67,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("Mentor deleted successfully!");
     }
 
-    @PostMapping("/mentor/{id}/upload-image")
+    @PostMapping("/{id}/upload-image")
     public ResponseEntity<String> uploadImage(@PathVariable Long id, @RequestParam ("file") MultipartFile file){
         service.uploadMentorPhoto(id, file);
         return ResponseEntity.ok("Mentor Image uploaded successfully!");

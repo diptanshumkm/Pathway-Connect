@@ -37,7 +37,61 @@ public class Mentee {
     @JoinColumn(name = "mentee_id")
     private List<AvailabilitySlot> availableSlots;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UserTable getUser() {
+        return user;
+    }
+
+    public void setUser(UserTable user) {
+        this.user = user;
+    }
+
+    public Education getEducation() {
+        return education;
+    }
+
+    public void setEducation(Education education) {
+        this.education = education;
+    }
+
+    public Goals getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goals goal) {
+        this.goal = goal;
+    }
+
+    public MentorTable getMentor() {
+        return mentor;
+    }
+
+    public void setMentor(MentorTable mentor) {
+        this.mentor = mentor;
+    }
+
+    public List<String> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(List<String> interests) {
+        this.interests = interests;
+    }
+
+    public List<AvailabilitySlot> getAvailableSlots() {
+        return availableSlots;
+    }
+
+    public void setAvailableSlots(List<AvailabilitySlot> availableSlots) {
+        this.availableSlots = availableSlots;
+    }
 
 
 }

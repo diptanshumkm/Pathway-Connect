@@ -19,7 +19,7 @@ import pathwayconnect.example.backend.utils.PasswordGenerator;
 import pathwayconnect.example.backend.utils.RandomIdGenerator;
 
 @Service
-public class UserService {
+public class MentorService {
 
     @Autowired
     private UserRepo userRepo;
@@ -58,7 +58,6 @@ public class UserService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepo.save(user));
     }
-
 
     public MentorResponseDTO addMentor(MentorRequestDTO mentorData) {
         if (mentorData.getEmail() == null || mentorData.getEmail().isEmpty() ||
