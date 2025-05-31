@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pathwayconnect.example.backend.DTO.LoginRequestDTO;
+import pathwayconnect.example.backend.DTO.MenteeResponseDTO;
 import pathwayconnect.example.backend.DTO.MentorResponseDTO;
 import pathwayconnect.example.backend.Service.LoginService;
 
@@ -21,5 +22,10 @@ public class LoginController {
     public MentorResponseDTO mentorLogin(@RequestBody LoginRequestDTO loginCredentials){
         return service.loginMentor(loginCredentials);
     } 
+
+    @PostMapping("/mentee")
+    public MenteeResponseDTO menteeLogin(@RequestBody LoginRequestDTO loginCredentials){
+        return service.loginMentee(loginCredentials);
+    }
 
 }

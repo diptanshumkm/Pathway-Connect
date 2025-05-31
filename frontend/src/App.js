@@ -7,6 +7,7 @@ import RegisterMentee from "./Pages/RegisterMentee";
 import { LoginMentor } from "./Pages/LoginMentor";
 import { LoginMentee } from "./Pages/LoginMentee";
 import { MentorDashboard } from "./Pages/MentorDashboard";
+import { MenteeDashboard } from "./Pages/MenteeDashboard";
 import Success from "./Pages/Success";
 
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/mentor/login" element={<LoginMentor />} />
             <Route path="/mentee/login" element={<LoginMentee />} />
             <Route path="/mentor/dashboard" element={<MentorDashboard />} />
+            <Route path="/mentee/dashboard" element={<MenteeDashboard />} />
           </Routes>
         </div>
       </div>
