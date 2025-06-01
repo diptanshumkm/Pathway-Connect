@@ -13,30 +13,23 @@ import Success from "./Pages/Success";
 
 function App() {
   return (
-    <div className="flex flex-col h-screen">
-
+    <div className="flex flex-col min-h-screen bg-[#EAF6FD] overflow-x-hidden">
       {/* Navbar */}
-      <div>
-        <Navbar />
-      </div>
-
+      <Navbar />
 
       {/* Main Layout */}
-      <div className="flex flex-grow">
-     
-        <div className="flex-grow overflow-auto p-4">
-          <Routes>
-            <Route path="" element={<Home />} />
-            <Route path="/register-mentor" element={<RegisterMentor />} ></Route>
-            <Route path="/register-mentee" element={<RegisterMentee />} ></Route>
-            <Route path="/success" element={<Success />} />
-            <Route path="/mentor/login" element={<LoginMentor />} />
-            <Route path="/mentee/login" element={<LoginMentee />} />
-            <Route path="/mentor/dashboard" element={<MentorDashboard />} />
-            <Route path="/mentee/dashboard" element={<MenteeDashboard />} />
-          </Routes>
-        </div>
-      </div>
+      <main className="flex-grow overflow-x-hidden">
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="/register-mentor" element={<RegisterMentor />} />
+          <Route path="/register-mentee" element={<RegisterMentee />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/mentor/login" element={<LoginMentor />} />
+          <Route path="/mentee/login" element={<LoginMentee />} />
+          <Route path="/mentor/dashboard" element={<MentorDashboard />} />
+          <Route path="/mentee/dashboard" element={<MenteeDashboard />} />
+        </Routes>
+      </main>
     </div>
   );
 }
