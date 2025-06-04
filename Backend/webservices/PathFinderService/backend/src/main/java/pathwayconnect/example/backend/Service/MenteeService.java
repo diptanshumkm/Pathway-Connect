@@ -24,6 +24,9 @@ public class MenteeService {
     private GoalsRepo goalsRepo;
     @Autowired
     private LoginRepo loginRepo;
+    @Autowired
+    private QueryRepo queryRepo;
+
 
 
     private String generateUniqueUserId() {
@@ -114,6 +117,15 @@ public class MenteeService {
     }
 
 
+    public void addQuery(String query){
+
+        if (query == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ask a question");
+        }
+
+        
+
+    }
 
 
 

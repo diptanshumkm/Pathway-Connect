@@ -37,6 +37,10 @@ public class Mentee {
     @JoinColumn(name = "mentee_id")
     private List<AvailabilitySlot> availableSlots;
 
+    @OneToMany(mappedBy = "mentee")
+    private List<Query> query;
+
+    
     public Long getId() {
         return id;
     }
@@ -60,15 +64,15 @@ public class Mentee {
     public void setEducation(Education education) {
         this.education = education;
     }
-
+    
     public Goals getGoal() {
         return goal;
     }
-
+    
     public void setGoal(Goals goal) {
         this.goal = goal;
     }
-
+    
     public MentorTable getMentor() {
         return mentor;
     }
@@ -93,5 +97,12 @@ public class Mentee {
         this.availableSlots = availableSlots;
     }
 
+    public List<Query> getQuery(){
+        return query;
+    }
+
+    public void setQuery(List<Query> query){
+        this.query = query;
+    }
 
 }
